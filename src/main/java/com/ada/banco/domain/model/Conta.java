@@ -29,6 +29,10 @@ public class Conta {
         this.cpf = cpf;
     }
 
+    public void depositar(BigDecimal valor) {
+        this.saldo = this.saldo.add(valor);
+    }
+
     public Long getId() {
         return id;
     }
