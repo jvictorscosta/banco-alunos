@@ -1,8 +1,16 @@
 package com.ada.banco.domain.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.math.BigDecimal;
 
+@Entity
 public class Conta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private Long agencia;
     private Long digito;
@@ -11,6 +19,9 @@ public class Conta {
     // Usuario / Titular
     private String titular;
     private String cpf;
+
+    public Conta() {
+    }
 
     public Conta(Long id, Long agencia, Long digito, BigDecimal saldo, String titular, String cpf) {
         this.id = id;
