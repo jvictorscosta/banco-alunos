@@ -41,6 +41,7 @@ public class CriarNovaContaTest {
         when(contaGateway.salvar(any())).thenReturn(conta);
         doNothing().when(emailGateway).send(conta.getCpf());
 
+
        criarNovaConta.execute(conta);
 
         // Then

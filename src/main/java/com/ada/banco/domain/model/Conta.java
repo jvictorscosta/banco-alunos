@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @Entity
 public class Conta {
@@ -19,6 +20,7 @@ public class Conta {
     // Usuario / Titular
     private String titular;
     private String cpf;
+
 
     public Conta() {
     }

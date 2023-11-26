@@ -24,14 +24,4 @@ public class CriarNovaConta {
         emailGateway.send(conta.getCpf());
         return novaConta;
     }
-
-    public Conta execute2(Conta conta, Boolean usuarioExiste) throws Exception {
-        if(usuarioExiste) {
-            throw new Exception("Usuario ja possui uma conta");
-        }
-
-        Conta novaConta = contaGateway.salvar(conta);
-        emailGateway.send(conta.getCpf());
-        return novaConta;
-    }
 }
