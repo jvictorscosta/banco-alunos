@@ -5,11 +5,13 @@ import com.ada.banco.domain.gateway.EmailGateway;
 import com.ada.banco.domain.gateway.TransacaoGateway;
 import com.ada.banco.domain.model.Conta;
 import com.ada.banco.domain.model.Transacao;
+import com.ada.banco.infra.gateway.bd.ContaGatewayDatabase;
 import com.ada.banco.infra.gateway.bd.TransacaoGatewayDatabase;
 
 import java.math.BigDecimal;
 
 public class FazerTransacao {
+    private ContaGatewayDatabase contaGatewayDatabase;
     private ContaGateway contaGateway;
     private EmailGateway emailGateway;
     private TransacaoGateway transacaoGateway;

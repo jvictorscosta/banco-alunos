@@ -45,14 +45,14 @@ public class FazerTransacaoTest {
     @Test
     void deveRealizarTransferencia() throws Exception {
         //Given
-        FazerTransacao fazerTransacao1=new FazerTransacao(contaGateway,emailGateway,transacaoGateway, transacaoGatewayDatabase);
+        FazerTransacao fazerTransacao=new FazerTransacao(contaGateway,emailGateway,transacaoGateway, transacaoGatewayDatabase);
 
         //when
         when(contaGateway.buscarPorCpf("222222222")).thenReturn(contaOrigem);
         when(contaGateway.buscarPorCpf("1111111111")).thenReturn(contaDestino);
         doNothing().when(transacaoGatewayDatabase).salvar(any());
 
-        fazerTransacao1.transferir("222222222","1111111111", 200);
+        fazerTransacao.transferir("222222222","1111111111", 200);
         //then
         Assertions.assertAll(
                 () -> Assertions.assertTrue(BigDecimal.ZERO.compareTo(this.contaOrigem.getSaldo()) == 0),
@@ -62,14 +62,14 @@ public class FazerTransacaoTest {
     @Test
     void deveRealizarSaque() throws Exception {
         //Given
-        FazerTransacao fazerTransacao1=new FazerTransacao(contaGateway,emailGateway,transacaoGateway,transacaoGatewayDatabase);
+        FazerTransacao fazerTransacao=new FazerTransacao(contaGateway,emailGateway,transacaoGateway,transacaoGatewayDatabase);
 
         //when
         when(contaGateway.buscarPorCpf("222222222")).thenReturn(contaOrigem);
         doNothing().when(transacaoGatewayDatabase).salvar(any());
         BigDecimal saldoAntigo = this.contaOrigem.getSaldo();
 
-        fazerTransacao1.sacar("222222222", new BigDecimal(200));
+        fazerTransacao.sacar("222222222", new BigDecimal(200));
 
         //then
 
@@ -81,14 +81,14 @@ public class FazerTransacaoTest {
     @Test
     void deveRealizarDeposito() throws Exception {
         //Given
-        FazerTransacao fazerTransacao1=new FazerTransacao(contaGateway,emailGateway,transacaoGateway,transacaoGatewayDatabase);
+        FazerTransacao fazerTransacao=new FazerTransacao(contaGateway,emailGateway,transacaoGateway,transacaoGatewayDatabase);
 
         //when
         when(contaGateway.buscarPorCpf("222222222")).thenReturn(contaOrigem);
         doNothing().when(transacaoGatewayDatabase).salvar(any());
         BigDecimal saldoAntigo = this.contaOrigem.getSaldo();
 
-        fazerTransacao1.depositar("222222222", new BigDecimal(200));
+        fazerTransacao.depositar("222222222", new BigDecimal(200));
 
         //then
 
@@ -96,5 +96,51 @@ public class FazerTransacaoTest {
                 () -> Assertions.assertTrue(saldoAntigo.compareTo(BigDecimal.valueOf(200L)) == 0),
                 () -> Assertions.assertEquals(BigDecimal.valueOf(400L), this.contaOrigem.getSaldo())
         );
+    }
+    @Test
+    void deveFalharAoRealizarDeposito(){
+        //Given
+        FazerTransacao fazerTransacao1=new FazerTransacao(contaGateway,emailGateway,transacaoGateway,transacaoGatewayDatabase);
+
+        //when
+        when(contaGateway.buscarPorCpf("222222222")).thenReturn(contaOrigem);
+
+
+
+        //then
+
+        Assertions.assertThrows(Exception.class, ()->
+                fazerTransacao1.depositar("222222222", new BigDecimal(0)));
+    }
+    @Test
+    void deveFalharAoRealizarSaque(){
+        //Given
+        FazerTransacao fazerTransacao1=new FazerTransacao(contaGateway,emailGateway,transacaoGateway,transacaoGatewayDatabase);
+
+        //when
+        when(contaGateway.buscarPorCpf("222222222")).thenReturn(contaOrigem);
+
+
+
+        //then
+
+        Assertions.assertThrows(Exception.class, ()->
+                fazerTransacao1.sacar("222222222", new BigDecimal(-1)));
+    }
+
+    @Test
+    void deveFalharAoTransferir(){
+        //Given
+        FazerTransacao fazerTransacao1=new FazerTransacao(contaGateway,emailGateway,transacaoGateway, transacaoGatewayDatabase);
+
+        //when
+        when(contaGateway.buscarPorCpf("222222222")).thenReturn(contaOrigem);
+        when(contaGateway.buscarPorCpf("1111111111")).thenReturn(contaDestino);
+
+
+
+        //then
+        Assertions.assertThrows(Exception.class, ()->
+                fazerTransacao1.transferir("222222222","1111111111", 300));
     }
 }
