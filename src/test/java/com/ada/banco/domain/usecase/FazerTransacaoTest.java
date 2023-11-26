@@ -23,7 +23,6 @@ public class FazerTransacaoTest {
     // mvn repository - Mockito core
     @Mock
     private ContaGateway contaGateway;
-
     @Mock
     private EmailGateway emailGateway;
     @Mock
